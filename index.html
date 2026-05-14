@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>MedBell – Care Beyond Reminders</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+/* ── RESET & TOKENS ───────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --red:#E8141E;
+  --red-soft:#FFF0F0;
+  --red-mid:#FFCFCF;
+  --dark:#111111;
+  --gray:#4B5563;
+  --light:#F9FAFB;
+  --white:#FFFFFF;
+  --font-head:'Poppins',sans-serif;
+  --font-body:'Manrope',sans-serif;
+  --radius:16px;
+  --shadow:0 4px 24px rgba(0,0,0,.08);
+  --shadow-card:0 2px 16px rgba(232,20,30,.10);
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);color:var(--dark);background:var(--white);overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+img{max-width:100%}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+.red{color:var(--red)}
+.btn-red{display:inline-flex;align-items:center;gap:8px;background:var(--red);color:#fff;padding:13px 28px;border-radius:50px;font-family:var(--font-head);font-weight:700;font-size:.95rem;letter-spacing:.01em;transition:transform .2s,box-shadow .2s;cursor:pointer;border:none}
+.btn-red:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(232,20,30,.35)}
+.btn-outline{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--dark);padding:13px 28px;border-radius:50px;font-family:var(--font-head);font-weight:700;font-size:.95rem;border:2px solid #E5E7EB;transition:border-color .2s,color .2s}
+.btn-outline:hover{border-color:var(--red);color:var(--red)}
+.section-label{font-family:var(--font-head);font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:14px}
+.section-title{font-family:var(--font-head);font-size:clamp(2rem,4vw,2.7rem);font-weight:800;line-height:1.15;color:var(--dark)}
+.section-sub{color:var(--gray);font-size:1.05rem;line-height:1.7;max-width:560px;margin:0 auto}
+
+/* ── NAVBAR ───────────────────────────────────────────── */
+nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid #F3F4F6;padding:0 24px}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-icon{width:38px;height:38px}
+.logo-text{font-family:var(--font-head);font-weight:800;font-size:1.45rem;color:var(--dark)}
+.logo-text span{color:var(--red)}
+.logo-tagline{font-size:.7rem;color:var(--gray);margin-top:-2px;font-weight:500}
+.nav-links{display:flex;align-items:center;gap:32px}
+.nav-links a{font-size:.9rem;font-weight:600;color:var(--gray);transition:color .2s;position:relative}
+.nav-links a:hover,.nav-links a.active{color:var(--dark)}
+.nav-links a.active::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:2px;background:var(--red);border-radius:2px}
+.nav-cta{display:flex;align-items:center;gap:12px}
+@media(max-width:900px){.nav-links{display:none}.hamburger{display:flex}}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none}
+.hamburger span{width:24px;height:2px;background:var(--dark);border-radius:2px;transition:.3s}
+
+/* ── HERO ─────────────────────────────────────────────── */
+#home{padding:80px 0 0;background:linear-gradient(150deg,#fff 60%,#FFF5F5 100%);overflow:hidden;min-height:90vh;display:flex;align-items:center}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--red-soft);border:1px solid var(--red-mid);border-radius:50px;padding:6px 16px;font-size:.8rem;font-weight:700;color:var(--red);margin-bottom:24px}
+.hero-badge::before{content:'🏆';font-size:.9rem}
+.hero-title{font-family:var(--font-head);font-size:clamp(2.4rem,5vw,3.5rem);font-weight:800;line-height:1.1;margin-bottom:20px}
+.hero-desc{color:var(--gray);font-size:1.05rem;line-height:1.75;margin-bottom:32px;max-width:480px}
+.hero-btns{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:36px}
+.store-btn{display:flex;align-items:center;gap:10px;background:#111;color:#fff;padding:12px 22px;border-radius:12px;font-family:var(--font-head);font-weight:600;font-size:.85rem;transition:background .2s,transform .2s}
+.store-btn:hover{background:#333;transform:translateY(-2px)}
+.store-btn svg{width:20px;height:20px;fill:#fff}
+.store-btn .store-line1{font-size:.65rem;font-weight:500;opacity:.8;line-height:1}
+.store-btn .store-line2{font-size:.95rem;font-weight:700;line-height:1.2}
+.hero-proof{display:flex;align-items:center;gap:12px}
+.avatars{display:flex}
+.avatars span{width:34px;height:34px;border-radius:50%;border:2px solid #fff;background:linear-gradient(135deg,#FEB2B2,#FC8181);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#fff;margin-left:-8px}
+.avatars span:first-child{margin-left:0}
+.avatars span:nth-child(2){background:linear-gradient(135deg,#FCA5A5,#F87171)}
+.avatars span:nth-child(3){background:linear-gradient(135deg,#FDA4AF,#FB7185)}
+.avatars span.more{background:var(--red)}
+.proof-text{font-size:.82rem;font-weight:600;color:var(--gray)}.proof-text b{color:var(--dark)}
+/* phone mockup */
+.hero-visual{position:relative;display:flex;justify-content:center;align-items:flex-end;padding-bottom:0}
+.phone-wrap{position:relative;animation:float 4s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.phone-frame{width:260px;background:#111;border-radius:40px;padding:10px;box-shadow:0 32px 80px rgba(0,0,0,.25)}
+.phone-screen{background:#fff;border-radius:32px;overflow:hidden;height:520px}
+.phone-status{display:flex;justify-content:space-between;padding:12px 18px 6px;font-size:.6rem;font-weight:700;background:#fff}
+.phone-notch{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:100px;height:24px;background:#111;border-radius:0 0 16px 16px;z-index:2}
+.phone-app-header{background:var(--red);padding:16px 18px 12px;color:#fff}
+.phone-app-header h4{font-size:.85rem;font-weight:700;opacity:.85}
+.phone-app-header h3{font-size:1.1rem;font-weight:800}
+.today-card{margin:12px;background:#fff;border-radius:14px;padding:14px;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.today-label{font-size:.65rem;font-weight:700;color:var(--gray);margin-bottom:8px}
+.today-stats{display:flex;gap:8px}
+.stat-box{flex:1;text-align:center;border-radius:10px;padding:8px 4px}
+.stat-box.taken{background:#ECFDF5;color:#10B981}
+.stat-box.missed{background:#FFF1F0;color:var(--red)}
+.stat-box.pending{background:#FFFBEB;color:#F59E0B}
+.stat-box .num{font-size:1.4rem;font-weight:800;display:block}
+.stat-box .lbl{font-size:.55rem;font-weight:700;opacity:.8}
+.med-list{margin:0 12px;background:#fff;border-radius:14px;padding:10px 14px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.med-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid #F3F4F6;font-size:.7rem}
+.med-row:last-child{border:none}
+.med-time{color:var(--gray);font-weight:600;width:55px}
+.med-name{flex:1;font-weight:700}
+.med-status{font-weight:700;font-size:.65rem}
+.med-status.taken{color:#10B981}.med-status.missed{color:var(--red)}.med-status.pending{color:#F59E0B}
+.phone-nav{display:flex;justify-content:space-around;padding:10px;background:#fff;border-top:1px solid #F3F4F6;margin-top:8px}
+.phone-nav-item{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.55rem;color:var(--gray);font-weight:600}
+.phone-nav-item.active{color:var(--red)}
+.phone-nav-item svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2}
+/* floating notification */
+.notif-float{position:absolute;bottom:60px;right:-80px;background:#fff;border-radius:16px;padding:12px 16px;box-shadow:0 8px 32px rgba(0,0,0,.15);width:220px;animation:notifPop 4s ease-in-out infinite 1s;border-left:4px solid var(--red)}
+@keyframes notifPop{0%,100%{transform:translateX(0) scale(1)}50%{transform:translateX(-6px) scale(1.02)}}
+.notif-row{display:flex;align-items:center;gap:10px}
+.notif-icon{width:36px;height:36px;background:var(--red);border-radius:10px;display:flex;align-items:center;justify-content:center}
+.notif-icon svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2}
+.notif-title{font-size:.75rem;font-weight:800;color:var(--red)}
+.notif-body{font-size:.68rem;color:var(--gray);font-weight:600}
+.notif-time{font-size:.6rem;color:var(--gray)}
+/* caregiver badge */
+.cg-badge{position:absolute;top:40px;left:-70px;background:#fff;border-radius:14px;padding:10px 14px;box-shadow:0 6px 24px rgba(0,0,0,.12);animation:float 4s ease-in-out infinite 2s}
+.cg-badge-row{display:flex;align-items:center;gap:8px}
+.cg-avatar{width:32px;height:32px;background:linear-gradient(135deg,#FCA5A5,var(--red));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;color:#fff}
+.cg-info .name{font-size:.72rem;font-weight:800}
+.cg-info .role{font-size:.6rem;color:var(--gray);font-weight:600}
+.cg-status{display:inline-flex;align-items:center;gap:4px;background:#ECFDF5;color:#10B981;border-radius:50px;padding:2px 8px;font-size:.58rem;font-weight:700;margin-top:4px}
+.cg-status::before{content:'';width:6px;height:6px;background:#10B981;border-radius:50%}
+@media(max-width:768px){
+  .hero-grid{grid-template-columns:1fr;text-align:center}
+  .hero-desc{max-width:100%}
+  .hero-btns{justify-content:center}
+  .hero-proof{justify-content:center}
+  .hero-visual{padding:40px 0 0}
+  .notif-float{right:-20px;bottom:20px}
+  .cg-badge{left:-10px;top:20px}
+}
+
+/* ── FEATURES ─────────────────────────────────────────── */
+#features{padding:100px 0;background:var(--white)}
+.features-header{text-align:center;margin-bottom:60px}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+@media(max-width:900px){.features-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.features-grid{grid-template-columns:1fr}}
+.feat-card{background:#fff;border:1.5px solid #F3F4F6;border-radius:var(--radius);padding:28px 24px 24px;transition:transform .25s,box-shadow .25s,border-color .25s;cursor:default}
+.feat-card:hover{transform:translateY(-6px);box-shadow:0 12px 40px rgba(232,20,30,.12);border-color:var(--red-mid)}
+.feat-icon-wrap{width:54px;height:54px;background:var(--red-soft);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.feat-icon-wrap svg{width:26px;height:26px;stroke:var(--red);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.feat-card h3{font-family:var(--font-head);font-size:1rem;font-weight:800;margin-bottom:8px}
+.feat-card p{font-size:.85rem;color:var(--gray);line-height:1.65;margin-bottom:16px}
+.feat-bullets{display:flex;flex-wrap:wrap;gap:6px}
+.feat-bullet{display:flex;align-items:center;gap:4px;font-size:.75rem;font-weight:700;color:var(--dark)}
+.feat-bullet::before{content:'';width:16px;height:16px;background:var(--red);border-radius:50%;flex-shrink:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='8' cy='8' r='8' fill='%23E8141E'/%3E%3Cpath d='M5 8l2 2 4-4' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+/* feature bottom CTA */
+.feat-bottom{margin-top:60px;background:var(--red-soft);border-radius:20px;padding:32px 40px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.feat-bottom-left{display:flex;align-items:center;gap:16px}
+.feat-bottom-left svg{width:44px;height:44px;stroke:var(--red);fill:none;stroke-width:1.5;flex-shrink:0}
+.feat-bottom-left h4{font-family:var(--font-head);font-size:1.1rem;font-weight:800}
+.feat-bottom-left p{font-size:.85rem;color:var(--gray)}
+.store-row{display:flex;gap:12px;flex-wrap:wrap}
+.store-btn-sm{display:flex;align-items:center;gap:8px;background:#111;color:#fff;padding:10px 18px;border-radius:10px;font-weight:700;font-size:.8rem;transition:background .2s}
+.store-btn-sm:hover{background:#333}
+.store-btn-sm svg{width:18px;height:18px;fill:#fff}
+
+/* ── HOW IT WORKS ─────────────────────────────────────── */
+#how-it-works{padding:100px 0;background:var(--light)}
+.hiw-header{text-align:center;margin-bottom:64px}
+.steps-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;align-items:start}
+.steps-row::after{content:'';position:absolute;top:38px;left:calc(12.5%);right:calc(12.5%);height:2px;background:repeating-linear-gradient(90deg,var(--red) 0,var(--red) 8px,transparent 8px,transparent 18px);z-index:0}
+@media(max-width:900px){.steps-row{grid-template-columns:1fr 1fr;gap:32px}.steps-row::after{display:none}}
+@media(max-width:560px){.steps-row{grid-template-columns:1fr}}
+.step-col{display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;z-index:1;padding:0 12px}
+.step-num{width:52px;height:52px;background:var(--red);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:800;font-size:1.15rem;margin-bottom:20px;box-shadow:0 4px 20px rgba(232,20,30,.3)}
+.step-icon{width:60px;height:60px;background:var(--red-soft);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:var(--shadow-card)}
+.step-icon svg{width:28px;height:28px;stroke:var(--red);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.step-phone{width:140px;margin:0 auto 20px;background:#111;border-radius:24px;padding:6px;box-shadow:0 16px 40px rgba(0,0,0,.2)}
+.step-phone-screen{background:#fff;border-radius:20px;overflow:hidden;height:240px}
+.step-screen-inner{padding:12px}
+.step-col h4{font-family:var(--font-head);font-size:.95rem;font-weight:800;margin-bottom:8px}
+.step-col p{font-size:.8rem;color:var(--gray);line-height:1.6}
+/* step screens */
+.sph-header{background:var(--red);padding:8px 12px;color:#fff;font-size:.65rem;font-weight:800;display:flex;align-items:center;gap:6px}
+.sph-header svg{width:12px;height:12px;stroke:#fff;fill:none;stroke-width:2}
+.sph-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #F3F4F6;font-size:.6rem}
+.sph-row:last-child{border:none}
+.sph-label{color:var(--gray);font-weight:600}
+.sph-val{font-weight:800}
+.sph-save-btn{background:var(--red);color:#fff;border:none;border-radius:8px;padding:6px 0;width:100%;font-weight:800;font-size:.65rem;margin-top:8px;cursor:default}
+/* notif screen */
+.notif-screen{background:#1C1C1E;height:100%;padding:10px 8px;display:flex;flex-direction:column;gap:8px}
+.notif-time-big{color:#fff;font-size:1.8rem;font-weight:800;text-align:center;font-family:var(--font-head)}
+.notif-date-s{color:rgba(255,255,255,.6);font-size:.6rem;text-align:center;margin-top:-4px}
+.notif-banner{background:rgba(255,255,255,.15);border-radius:12px;padding:10px;display:flex;align-items:center;gap:8px;backdrop-filter:blur(4px)}
+.notif-banner-icon{width:28px;height:28px;background:var(--red);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.notif-banner-icon svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2}
+.notif-banner-text .t1{font-size:.6rem;font-weight:800;color:#fff}
+.notif-banner-text .t2{font-size:.55rem;color:rgba(255,255,255,.7)}
+/* track screen */
+.track-header{background:var(--red);padding:8px 12px;color:#fff}
+.track-header .th-date{font-size:.55rem;opacity:.8}
+.track-header .th-next{font-size:.7rem;font-weight:800}
+.track-header .th-med{font-size:.85rem;font-weight:800}
+.mark-btn{background:#10B981;color:#fff;border:none;border-radius:8px;padding:6px 12px;font-weight:800;font-size:.6rem;display:flex;align-items:center;gap:4px;margin:8px 12px;cursor:default;width:calc(100% - 24px);justify-content:center}
+.mark-btn svg{width:12px;height:12px;stroke:#fff;fill:none;stroke-width:2.5}
+.track-list{padding:0 12px}
+.track-row{display:flex;justify-content:space-between;font-size:.6rem;padding:4px 0;border-bottom:1px solid #F3F4F6}
+.track-row:last-child{border:none}
+/* cg screen */
+.cg-screen-header{background:#fff;padding:8px 12px;border-bottom:1px solid #F3F4F6;font-size:.7rem;font-weight:800}
+.cg-profile-row{display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid #F3F4F6}
+.cg-prof-avatar{width:28px;height:28px;background:var(--red);border-radius:50%;font-size:.6rem;font-weight:800;color:#fff;display:flex;align-items:center;justify-content:center}
+.cg-prof-info .n{font-size:.65rem;font-weight:800}
+.cg-prof-info .a{font-size:.55rem;color:var(--gray)}
+.cg-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:8px 12px}
+.cg-stat{text-align:center;border-radius:8px;padding:6px 2px}
+.cg-stat .n{font-size:.9rem;font-weight:800;display:block}
+.cg-stat .l{font-size:.5rem;font-weight:700;display:block}
+.cg-stat.t{background:#ECFDF5;color:#10B981}
+.cg-stat.m{background:#FFF1F0;color:var(--red)}
+.cg-stat.p{background:#FFFBEB;color:#F59E0B}
+.cg-act{padding:4px 12px}
+.cg-act-title{font-size:.55rem;font-weight:700;color:var(--gray);margin-bottom:4px}
+.cg-act-row{display:flex;justify-content:space-between;font-size:.55rem;padding:3px 0;border-bottom:1px solid #F3F4F6}
+.cg-act-row:last-child{border:none}
+/* hiw bottom cards */
+.hiw-bottom{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:60px}
+@media(max-width:600px){.hiw-bottom{grid-template-columns:1fr}}
+.hiw-card{background:#fff;border-radius:var(--radius);padding:24px 28px;display:flex;align-items:flex-start;gap:16px;box-shadow:var(--shadow)}
+.hiw-card-icon{width:44px;height:44px;background:var(--red-soft);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.hiw-card-icon svg{width:22px;height:22px;stroke:var(--red);fill:none;stroke-width:2}
+.hiw-card h4{font-family:var(--font-head);font-size:.95rem;font-weight:800;margin-bottom:6px}
+.hiw-card p{font-size:.82rem;color:var(--gray);line-height:1.6}
+
+/* ── CAREGIVER ────────────────────────────────────────── */
+#caregiver{padding:100px 0;background:#fff}
+.cg-section-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+@media(max-width:768px){.cg-section-grid{grid-template-columns:1fr}}
+.cg-visual{position:relative;border-radius:24px;overflow:visible}
+.cg-main-card{background:var(--red-soft);border-radius:24px;padding:32px;position:relative;overflow:hidden}
+.cg-main-card::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:var(--red-mid);border-radius:50%;opacity:.4}
+.cg-dashboard-preview{background:#fff;border-radius:16px;padding:20px;box-shadow:0 8px 32px rgba(0,0,0,.1);position:relative;z-index:1}
+.cdp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.cdp-header h4{font-family:var(--font-head);font-weight:800;font-size:.95rem}
+.cdp-profile{display:flex;align-items:center;gap:10px;background:#F9FAFB;border-radius:12px;padding:10px 14px;margin-bottom:14px;border:1.5px solid #F3F4F6}
+.cdp-avatar{width:36px;height:36px;background:var(--red);border-radius:50%;font-size:.8rem;font-weight:800;color:#fff;display:flex;align-items:center;justify-content:center}
+.cdp-name{font-weight:800;font-size:.85rem}
+.cdp-age{font-size:.7rem;color:var(--gray)}
+.cdp-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.cdp-stat{text-align:center;border-radius:10px;padding:10px 4px}
+.cdp-stat .n{font-size:1.4rem;font-weight:800;display:block}
+.cdp-stat .l{font-size:.6rem;font-weight:700;display:block}
+.cdp-stat.t{background:#ECFDF5;color:#10B981}.cdp-stat.m{background:#FFF1F0;color:var(--red)}.cdp-stat.p{background:#FFFBEB;color:#F59E0B}
+.cdp-acts{font-size:.75rem}
+.cdp-act-title{font-weight:700;color:var(--gray);margin-bottom:8px;display:flex;justify-content:space-between}
+.cdp-act-title span{color:var(--red);cursor:pointer}
+.cdp-act-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #F3F4F6}
+.cdp-act-row:last-child{border:none}
+.cdp-act-time{color:var(--gray);font-weight:600}
+.cdp-act-name{font-weight:700}
+.cdp-act-status{font-weight:800;font-size:.7rem}
+.cdp-act-status.t{color:#10B981}.cdp-act-status.m{color:var(--red)}.cdp-act-status.p{color:#F59E0B}
+/* floating miss alert */
+.miss-alert{position:absolute;bottom:-20px;right:-20px;background:#fff;border-radius:14px;padding:12px 16px;box-shadow:0 8px 32px rgba(0,0,0,.15);border-left:4px solid var(--red);width:210px;animation:float 4s ease-in-out infinite}
+.miss-alert-row{display:flex;align-items:center;gap:10px}
+.miss-icon{width:32px;height:32px;background:var(--red);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.miss-icon svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2}
+.miss-title{font-size:.7rem;font-weight:800;color:var(--red)}
+.miss-body{font-size:.65rem;color:var(--gray);font-weight:600}
+.miss-ago{font-size:.58rem;color:var(--gray);margin-left:auto;align-self:flex-start}
+/* cg content */
+.cg-content{}
+.cg-content .section-title{margin-bottom:20px}
+.cg-content .section-sub{margin:0 0 32px;text-align:left}
+.cg-feat-list{display:flex;flex-direction:column;gap:20px;margin-bottom:36px}
+.cg-feat-item{display:flex;align-items:flex-start;gap:14px}
+.cg-feat-icon{width:46px;height:46px;background:var(--red-soft);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cg-feat-icon svg{width:22px;height:22px;stroke:var(--red);fill:none;stroke-width:2}
+.cg-feat-item h4{font-family:var(--font-head);font-weight:800;font-size:.95rem;margin-bottom:4px}
+.cg-feat-item p{font-size:.82rem;color:var(--gray);line-height:1.6}
+/* cg grid bottom */
+.cg-grid-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.cg-tag{display:flex;align-items:center;gap:6px;background:var(--red-soft);border-radius:8px;padding:6px 12px;font-size:.75rem;font-weight:700;color:var(--dark)}
+.cg-tag svg{width:14px;height:14px;stroke:var(--red);fill:none;stroke-width:2}
+.cg-social-proof{display:flex;align-items:center;gap:12px;margin-top:24px;background:#F9FAFB;border-radius:14px;padding:16px 20px;border:1.5px solid #F3F4F6}
+.cg-sp-icon{width:40px;height:40px;background:var(--red);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cg-sp-icon svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2}
+.cg-sp-text .n{font-family:var(--font-head);font-size:1.1rem;font-weight:800}
+.cg-sp-text .l{font-size:.78rem;color:var(--gray)}
+
+/* ── ABOUT ────────────────────────────────────────────── */
+#about{padding:100px 0;background:linear-gradient(150deg,#FFF8F8 0%,#fff 60%)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+@media(max-width:768px){.about-grid{grid-template-columns:1fr}}
+.about-story-card{background:#fff;border-radius:24px;padding:32px;box-shadow:var(--shadow);border:1.5px solid #F3F4F6;position:relative;overflow:hidden}
+.about-story-card::before{content:'"';font-family:var(--font-head);font-size:8rem;color:var(--red-mid);position:absolute;top:-16px;left:16px;line-height:1;font-weight:800}
+.about-story-card p{font-size:1rem;line-height:1.8;color:var(--gray);margin-bottom:20px;position:relative;z-index:1;padding-top:40px}
+.about-author{display:flex;align-items:center;gap:12px}
+.about-author-avatar{width:44px;height:44px;background:linear-gradient(135deg,var(--red),#FF6B6B);border-radius:50%;font-weight:800;font-size:.9rem;color:#fff;display:flex;align-items:center;justify-content:center}
+.about-author-name{font-weight:800;font-size:.9rem}
+.about-author-role{font-size:.75rem;color:var(--gray)}
+.about-timeline{display:flex;flex-direction:column;gap:20px;position:relative}
+.about-timeline::before{content:'';position:absolute;left:19px;top:0;bottom:0;width:2px;background:var(--red-mid)}
+.timeline-item{display:flex;gap:20px;position:relative}
+.timeline-dot{width:40px;height:40px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:800;font-size:.75rem;color:#fff;flex-shrink:0;position:relative;z-index:1}
+.timeline-content h4{font-family:var(--font-head);font-weight:800;font-size:.95rem;margin-bottom:4px}
+.timeline-content p{font-size:.82rem;color:var(--gray);line-height:1.6}
+
+/* ── TESTIMONIALS ─────────────────────────────────────── */
+#testimonials{padding:100px 0;background:var(--light)}
+.testi-header{text-align:center;margin-bottom:60px}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+@media(max-width:900px){.testi-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.testi-grid{grid-template-columns:1fr}}
+.testi-card{background:#fff;border-radius:var(--radius);padding:28px 24px;box-shadow:var(--shadow);border:1.5px solid #F3F4F6;position:relative;transition:transform .25s,box-shadow .25s}
+.testi-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.1)}
+.testi-stars{display:flex;gap:3px;margin-bottom:16px}
+.testi-stars span{color:#FFC107;font-size:1rem}
+.testi-quote{font-size:.9rem;line-height:1.7;color:var(--gray);margin-bottom:20px;font-style:italic}
+.testi-quote::before{content:'"';color:var(--red);font-size:1.4rem;font-weight:800;line-height:0;vertical-align:-6px}
+.testi-quote::after{content:'"';color:var(--red);font-size:1.4rem;font-weight:800;line-height:0;vertical-align:-6px}
+.testi-author{display:flex;align-items:center;gap:10px}
+.testi-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--red-mid),var(--red));font-weight:800;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.8rem}
+.testi-name{font-weight:800;font-size:.85rem}
+.testi-loc{font-size:.72rem;color:var(--gray)}
+.testi-tag{position:absolute;top:16px;right:16px;background:var(--red-soft);color:var(--red);font-size:.65rem;font-weight:700;padding:4px 10px;border-radius:50px}
+
+/* ── DOWNLOAD CTA ─────────────────────────────────────── */
+#download{padding:80px 0;background:var(--red);position:relative;overflow:hidden}
+#download::before{content:'';position:absolute;top:-80px;right:-80px;width:400px;height:400px;background:rgba(255,255,255,.08);border-radius:50%}
+#download::after{content:'';position:absolute;bottom:-60px;left:-60px;width:300px;height:300px;background:rgba(255,255,255,.06);border-radius:50%}
+.dl-inner{position:relative;z-index:1;display:grid;grid-template-columns:1fr auto;gap:60px;align-items:center}
+@media(max-width:768px){.dl-inner{grid-template-columns:1fr;text-align:center}}
+.dl-content h2{font-family:var(--font-head);font-size:clamp(2rem,4vw,2.8rem);font-weight:800;color:#fff;line-height:1.15;margin-bottom:12px}
+.dl-content p{color:rgba(255,255,255,.8);font-size:1.05rem;margin-bottom:28px}
+.dl-btns{display:flex;gap:12px;flex-wrap:wrap}
+.dl-btn{display:flex;align-items:center;gap:10px;background:#fff;color:var(--dark);padding:12px 22px;border-radius:12px;font-weight:700;font-size:.85rem;transition:transform .2s,box-shadow .2s}
+.dl-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.dl-btn svg{width:20px;height:20px;fill:var(--dark)}
+.dl-btn .s1{font-size:.62rem;font-weight:500;opacity:.7;line-height:1}
+.dl-btn .s2{font-size:.9rem;font-weight:800;line-height:1.2}
+.dl-phone-wrap{position:relative}
+.dl-phone{width:200px;background:#111;border-radius:32px;padding:8px;box-shadow:0 24px 60px rgba(0,0,0,.3)}
+.dl-phone-screen{background:var(--red-soft);border-radius:26px;height:380px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+.dl-phone-screen .app-logo{width:70px;height:70px;background:#fff;border-radius:20px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(232,20,30,.2)}
+.dl-phone-screen .app-logo svg{width:36px;height:36px;stroke:var(--red);fill:none;stroke-width:1.8}
+.dl-phone-screen h4{font-family:var(--font-head);font-weight:800;font-size:1rem;color:var(--dark)}
+.dl-phone-screen p{font-size:.72rem;color:var(--gray);text-align:center;padding:0 16px}
+.dl-phone-screen .open-btn{background:var(--red);color:#fff;border:none;border-radius:10px;padding:10px 24px;font-weight:800;font-size:.8rem;cursor:default}
+@media(max-width:768px){.dl-phone-wrap{display:none}}
+
+/* ── FAQ ──────────────────────────────────────────────── */
+#faq{padding:100px 0;background:#fff}
+.faq-header{text-align:center;margin-bottom:60px}
+.faq-list{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.faq-item{background:#fff;border:1.5px solid #F3F4F6;border-radius:var(--radius);overflow:hidden}
+.faq-q{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;cursor:pointer;font-family:var(--font-head);font-weight:700;font-size:.95rem}
+.faq-q svg{width:20px;height:20px;stroke:var(--red);fill:none;stroke-width:2;transition:transform .3s;flex-shrink:0}
+.faq-item.open .faq-q svg{transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s}
+.faq-a p{padding:0 24px 20px;color:var(--gray);font-size:.88rem;line-height:1.7}
+.faq-item.open .faq-a{max-height:200px}
+
+/* ── FOOTER ───────────────────────────────────────────── */
+footer{background:#0D0D0D;color:#fff;padding:60px 0 0}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
+@media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr;gap:32px}}
+@media(max-width:500px){.footer-grid{grid-template-columns:1fr}}
+.footer-brand .logo-text{color:#fff;margin-bottom:12px;display:block;font-family:var(--font-head);font-weight:800;font-size:1.3rem}
+.footer-brand .logo-text span{color:var(--red)}
+.footer-brand p{font-size:.82rem;color:rgba(255,255,255,.5);line-height:1.7;margin-bottom:20px}
+.footer-socials{display:flex;gap:10px}
+.social-btn{width:36px;height:36px;background:rgba(255,255,255,.08);border-radius:10px;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.social-btn:hover{background:var(--red)}
+.social-btn svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2}
+.footer-col h5{font-family:var(--font-head);font-weight:700;font-size:.85rem;color:rgba(255,255,255,.9);margin-bottom:16px;text-transform:uppercase;letter-spacing:.06em}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.footer-col ul li a{font-size:.82rem;color:rgba(255,255,255,.45);transition:color .2s}
+.footer-col ul li a:hover{color:#fff}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding:20px 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-bottom p{font-size:.75rem;color:rgba(255,255,255,.3)}
+.footer-disclaimer{background:rgba(255,255,255,.05);border-radius:10px;padding:12px 16px;margin-bottom:24px;text-align:center}
+.footer-disclaimer p{font-size:.72rem;color:rgba(255,255,255,.35);line-height:1.6}
+
+/* ── SCROLL ANIMATIONS ────────────────────────────────── */
+.fade-up{opacity:0;transform:translateY(32px);transition:opacity .7s ease,transform .7s ease}
+.fade-up.visible{opacity:1;transform:none}
+.fade-up.delay-1{transition-delay:.1s}
+.fade-up.delay-2{transition-delay:.2s}
+.fade-up.delay-3{transition-delay:.3s}
+.fade-up.delay-4{transition-delay:.4s}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-inner">
+    <div class="logo">
+      <svg class="logo-icon" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="38" height="38" rx="10" fill="#FFF0F0"/>
+        <path d="M19 8C14.58 8 11 11.58 11 16C11 18.4 12 20.6 13.6 22.2L19 30L24.4 22.2C26 20.6 27 18.4 27 16C27 11.58 23.42 8 19 8Z" fill="#E8141E" opacity=".15"/>
+        <path d="M19 30L13.6 22.2C12 20.6 11 18.4 11 16C11 11.58 14.58 8 19 8C23.42 8 27 11.58 27 16C27 18.4 26 20.6 24.4 22.2L19 30Z" stroke="#E8141E" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M16 16h6M19 13v6" stroke="#E8141E" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <div class="logo-text"><span>Med</span>Bell</div>
+        <div class="logo-tagline">Care beyond reminders.</div>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="#home" class="active">Home</a>
+      <a href="#features">Features</a>
+      <a href="#how-it-works">How It Works</a>
+      <a href="#caregiver">Caregiver</a>
+      <a href="#about">About Us</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#download" class="btn-red">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download App
+      </a>
+    </div>
+    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-badge">Trusted by 10,000+ Indian families</div>
+        <h1 class="hero-title">Never miss a dose.<br><span class="red">Even from far away.</span></h1>
+        <p class="hero-desc">MedBell helps families stay connected through medicine care. Smart reminders, caregiver alerts, and real-time tracking — all in one place.</p>
+        <div class="hero-btns">
+          <a href="#download" class="store-btn">
+            <svg viewBox="0 0 24 24"><path d="M3.18 23.76c.31.17.67.18 1.01.04L15.34 12 4.19.2C3.85.06 3.49.07 3.18.24 2.56.57 2.18 1.23 2.18 2v19.99c0 .77.38 1.43 1 1.77zM18.43 9.09l-2.9-1.64-3.23 3.23 3.23 3.23 2.93-1.66c.83-.47.83-1.69-.03-2.16zM4.87 1.58l12.61 7.14-2.86 2.86L4.87 1.58zM4.87 22.42l9.75-9.74 2.86 2.86-12.61 7.14v-.26z"/></svg>
+            <div><div class="store-line1">Get it on</div><div class="store-line2">Google Play</div></div>
+          </a>
+          <a href="#download" class="store-btn">
+            <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <div><div class="store-line1">Download on the</div><div class="store-line2">App Store</div></div>
+          </a>
+        </div>
+        <div class="hero-proof">
+          <div class="avatars">
+            <span>SK</span><span>RD</span><span>PM</span><span class="more">+</span>
+          </div>
+          <div class="proof-text"><b>10,000+ families</b> trust MedBell daily</div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="phone-wrap">
+          <!-- caregiver badge -->
+          <div class="cg-badge">
+            <div class="cg-badge-row">
+              <div class="cg-avatar">SD</div>
+              <div class="cg-info">
+                <div class="name">Savitri Devi</div>
+                <div class="role">Your Mother · 67 yrs</div>
+              </div>
+            </div>
+            <div class="cg-status">Active • All meds on track</div>
+          </div>
+          <div class="phone-frame">
+            <div class="phone-notch"></div>
+            <div class="phone-screen">
+              <div class="phone-app-header">
+                <h4>Today's Summary</h4>
+                <h3>20 May, 2024</h3>
+              </div>
+              <div class="today-card">
+                <div class="today-label">DAILY OVERVIEW</div>
+                <div class="today-stats">
+                  <div class="stat-box taken"><span class="num">2</span><span class="lbl">Taken</span></div>
+                  <div class="stat-box missed"><span class="num">1</span><span class="lbl">Missed</span></div>
+                  <div class="stat-box pending"><span class="num">1</span><span class="lbl">Pending</span></div>
+                </div>
+              </div>
+              <div class="med-list">
+                <div class="med-row" style="font-size:.62rem;font-weight:800;color:var(--gray);border-bottom:1px solid #F3F4F6;padding-bottom:4px;margin-bottom:4px">Recent Activity <span style="color:var(--red)">View All</span></div>
+                <div class="med-row"><span class="med-time">9:00 AM</span><span class="med-name">Blood Pressure Tablet</span><span class="med-status taken">Taken</span></div>
+                <div class="med-row"><span class="med-time">1:00 PM</span><span class="med-name">Vitamin D3</span><span class="med-status missed">Missed</span></div>
+                <div class="med-row"><span class="med-time">8:00 PM</span><span class="med-name">Calcium Tablet</span><span class="med-status pending">Pending</span></div>
+              </div>
+              <div class="phone-nav">
+                <div class="phone-nav-item active">
+                  <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                  Dashboard
+                </div>
+                <div class="phone-nav-item">
+                  <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                  Medicines
+                </div>
+                <div class="phone-nav-item">
+                  <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+                  Alerts
+                </div>
+                <div class="phone-nav-item">
+                  <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z"/></svg>
+                  Profile
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- floating notification -->
+          <div class="notif-float">
+            <div class="notif-row">
+              <div class="notif-icon">
+                <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+              </div>
+              <div style="flex:1">
+                <div class="notif-title">Missed Dose Alert</div>
+                <div class="notif-body">Mom missed 1:00 PM<br>Vitamin D3</div>
+              </div>
+              <div class="notif-time">1m ago</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="container">
+    <div class="features-header fade-up">
+      <div class="section-label">Features</div>
+      <h2 class="section-title">Everything you need,<br>for better care <span class="red">together.</span></h2>
+      <p class="section-sub" style="margin-top:16px">MedBell is more than a reminder app. It connects families and caregivers so your loved ones never miss a dose.</p>
+    </div>
+    <div class="features-grid">
+      <!-- card 1 -->
+      <div class="feat-card fade-up">
+        <div class="feat-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+        </div>
+        <h3>Smart Medicine Reminders</h3>
+        <p>Timely alerts for each medicine, so doses are never missed. Custom schedules for every family member.</p>
+        <div class="feat-bullets">
+          <span class="feat-bullet">Custom timings</span>
+          <span class="feat-bullet">Repeat & snooze</span>
+        </div>
+      </div>
+      <!-- card 2 -->
+      <div class="feat-card fade-up delay-1">
+        <div class="feat-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <h3>Caregiver Alerts</h3>
+        <p>Caregivers get notified instantly if a dose is missed. Stay connected no matter the distance.</p>
+        <div class="feat-bullets">
+          <span class="feat-bullet">Missed dose alerts</span>
+          <span class="feat-bullet">Real-time notifications</span>
+        </div>
+      </div>
+      <!-- card 3 -->
+      <div class="feat-card fade-up delay-2">
+        <div class="feat-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2M9 12l2 2 4-4"/></svg>
+        </div>
+        <h3>Medicine Tracking</h3>
+        <p>Track taken, missed & pending medicines with full history and daily overview reports.</p>
+        <div class="feat-bullets">
+          <span class="feat-bullet">Daily overview</span>
+          <span class="feat-bullet">History & reports</span>
+        </div>
+      </div>
+      <!-- card 4 -->
+      <div class="feat-card fade-up delay-1">
+        <div class="feat-icon-wrap">
+          <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12" y2="18"/><path d="M9 6h6M9 10h6M9 14h4"/></svg>
+        </div>
+        <h3>Caregiver Dashboard</h3>
+        <p>Caregivers can view schedules, updates & history remotely. Full visibility in one place.</p>
+        <div class="feat-bullets">
+          <span class="feat-bullet">Multiple profiles</span>
+          <span class="feat-bullet">At-a-glance updates</span>
+        </div>
+      </div>
+      <!-- card 5 -->
+      <div class="feat-card fade-up delay-2">
+        <div class="feat-icon-wrap">
+          <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        </div>
+        <h3>Safe & Private</h3>
+        <p>Your data is encrypted and always kept private. We never share your health data.</p>
+        <div class="feat-bullets">
+          <span class="feat-bullet">Secure & encrypted</span>
+          <span class="feat-bullet">100% privacy</span>
+        </div>
+      </div>
+      <!-- card 6 -->
+      <div class="feat-card fade-up delay-3">
+        <div class="feat-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        </div>
+        <h3>Peace of Mind</h3>
+        <p>Stay connected and worry-free knowing your loved ones are always cared for, from anywhere.</p>
+        <div class="feat-bullets">
+          <span class="feat-bullet">Family connection</span>
+          <span class="feat-bullet">Better health habits</span>
+        </div>
+      </div>
+    </div>
+    <!-- bottom CTA -->
+    <div class="feat-bottom fade-up" style="margin-top:48px">
+      <div class="feat-bottom-left">
+        <svg viewBox="0 0 24 24" style="width:44px;height:44px"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        <div>
+          <h4>Care made simple. Connection made stronger.</h4>
+          <p>With MedBell, you're never far from the people who matter.</p>
+        </div>
+      </div>
+      <div class="store-row">
+        <a href="#download" class="store-btn-sm">
+          <svg viewBox="0 0 24 24"><path d="M3.18 23.76c.31.17.67.18 1.01.04L15.34 12 4.19.2C3.85.06 3.49.07 3.18.24 2.56.57 2.18 1.23 2.18 2v19.99c0 .77.38 1.43 1 1.77z"/></svg>
+          Google Play
+        </a>
+        <a href="#download" class="store-btn-sm">
+          <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          App Store
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how-it-works">
+  <div class="container">
+    <div class="hiw-header fade-up">
+      <div class="section-label">How It Works</div>
+      <h2 class="section-title">Simple steps for better care,<br><span class="red">together.</span></h2>
+      <p class="section-sub" style="margin-top:16px">MedBell makes it easy for families to manage medicines and stay connected.</p>
+    </div>
+    <div class="steps-row">
+      <!-- step 1 -->
+      <div class="step-col fade-up">
+        <div class="step-num">1</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2M12 11v6M9 14h6"/></svg>
+        </div>
+        <div class="step-phone">
+          <div class="step-phone-screen">
+            <div class="sph-header">
+              <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+              Add Medicine
+            </div>
+            <div class="step-screen-inner">
+              <div class="sph-row"><span class="sph-label">Medicine Name</span></div>
+              <div style="font-size:.7rem;font-weight:800;padding:2px 0 6px">Blood Pressure Tablet</div>
+              <div class="sph-row"><span class="sph-label">Time</span><span class="sph-val">9:00 AM</span></div>
+              <div class="sph-row"><span class="sph-label">Dose</span><span class="sph-val">1 Tablet</span></div>
+              <div class="sph-row"><span class="sph-label">Repeat</span><span class="sph-val">Daily</span></div>
+              <button class="sph-save-btn">Save Medicine</button>
+            </div>
+          </div>
+        </div>
+        <h4>Add Medicines</h4>
+        <p>Add your loved one's medicines, timings, and dosage in just a few taps.</p>
+      </div>
+      <!-- step 2 -->
+      <div class="step-col fade-up delay-1">
+        <div class="step-num">2</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+        </div>
+        <div class="step-phone">
+          <div class="step-phone-screen">
+            <div class="notif-screen">
+              <div class="notif-time-big">9:00</div>
+              <div class="notif-date-s">Tuesday, 20 May</div>
+              <div style="flex:1"></div>
+              <div class="notif-banner">
+                <div class="notif-banner-icon">
+                  <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+                </div>
+                <div class="notif-banner-text">
+                  <div class="t1">MedBell · now</div>
+                  <div class="t2">Time to take Blood Pressure Tablet · 1 Tablet at 9:00 AM</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <h4>Get Reminders</h4>
+        <p>Timely reminders notify your loved one to take their medicines on time, every time.</p>
+      </div>
+      <!-- step 3 -->
+      <div class="step-col fade-up delay-2">
+        <div class="step-num">3</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        </div>
+        <div class="step-phone">
+          <div class="step-phone-screen">
+            <div class="track-header">
+              <div class="th-date">Today</div>
+              <div class="th-next">Next Medicine</div>
+              <div class="th-med">9:00 AM — Blood Pressure Tablet</div>
+            </div>
+            <button class="mark-btn">
+              <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              Mark as Taken
+            </button>
+            <div class="track-list">
+              <div style="font-size:.6rem;font-weight:700;color:var(--gray);margin-bottom:4px">Today's Schedule</div>
+              <div class="track-row"><span>1:00 PM — Vitamin D3</span><span>1 Tablet</span></div>
+              <div class="track-row"><span>8:00 PM — Calcium</span><span>1 Tablet</span></div>
+            </div>
+          </div>
+        </div>
+        <h4>Track Medicine Intake</h4>
+        <p>Your loved one can mark medicines as taken, so nothing is missed.</p>
+      </div>
+      <!-- step 4 -->
+      <div class="step-col fade-up delay-3">
+        <div class="step-num">4</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <div class="step-phone">
+          <div class="step-phone-screen">
+            <div class="cg-screen-header">Caregiver Dashboard</div>
+            <div class="cg-profile-row">
+              <div class="cg-prof-avatar">M</div>
+              <div class="cg-prof-info">
+                <div class="n">Mom (Savitri Devi)</div>
+                <div class="a">67 Years · View Dashboard →</div>
+              </div>
+            </div>
+            <div class="cg-summary">
+              <div class="cg-stat t"><span class="n">2</span><span class="l">Taken</span></div>
+              <div class="cg-stat m"><span class="n">0</span><span class="l">Missed</span></div>
+              <div class="cg-stat p"><span class="n">1</span><span class="l">Pending</span></div>
+            </div>
+            <div class="cg-act">
+              <div class="cg-act-title">Recent Activity <span>View All</span></div>
+              <div class="cg-act-row"><span>9:00 AM Blood Pressure Tablet</span><span style="color:#10B981;font-weight:700">Taken</span></div>
+              <div class="cg-act-row"><span>8:00 AM Vitamin D3</span><span style="color:#10B981;font-weight:700">Taken</span></div>
+            </div>
+          </div>
+        </div>
+        <h4>Caregiver Gets Notified</h4>
+        <p>Caregivers receive instant alerts and can monitor medicine intake from anywhere.</p>
+      </div>
+    </div>
+    <!-- bottom cards -->
+    <div class="hiw-bottom">
+      <div class="hiw-card fade-up">
+        <div class="hiw-card-icon">
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        </div>
+        <div>
+          <h4>Peace of mind for your whole family.</h4>
+          <p>Stay connected, informed, and worry-free knowing your loved ones are taking care of their health.</p>
+        </div>
+      </div>
+      <div class="hiw-card fade-up delay-1">
+        <div class="hiw-card-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <div>
+          <h4>Care together, from anywhere.</h4>
+          <p>MedBell brings families closer with real-time updates and reliable medicine tracking.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAREGIVER SECTION -->
+<section id="caregiver">
+  <div class="container">
+    <div class="cg-section-grid">
+      <!-- visual -->
+      <div class="cg-visual fade-up">
+        <div class="cg-main-card">
+          <div class="section-label" style="margin-bottom:8px">CAREGIVER INTEGRATION</div>
+          <div class="cg-dashboard-preview">
+            <div class="cdp-header">
+              <h4>Caregiver Dashboard</h4>
+              <span style="font-size:.7rem;color:var(--red);font-weight:700;cursor:pointer">← Back</span>
+            </div>
+            <div class="cdp-profile">
+              <div class="cdp-avatar">SD</div>
+              <div>
+                <div class="cdp-name">Mom (Savitri Devi)</div>
+                <div class="cdp-age">67 Years</div>
+              </div>
+              <svg style="width:16px;height:16px;stroke:var(--red);fill:none;stroke-width:2;margin-left:auto" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+            <div style="font-size:.7rem;font-weight:700;color:var(--gray);margin-bottom:8px">Today's Summary · 20 May, 2024</div>
+            <div class="cdp-stats">
+              <div class="cdp-stat t"><span class="n">2</span><span class="l">Taken</span></div>
+              <div class="cdp-stat m"><span class="n">1</span><span class="l">Missed</span></div>
+              <div class="cdp-stat p"><span class="n">1</span><span class="l">Pending</span></div>
+            </div>
+            <div class="cdp-acts">
+              <div class="cdp-act-title">Recent Activity <span>View All</span></div>
+              <div class="cdp-act-row"><span class="cdp-act-time">9:00 AM</span><span class="cdp-act-name">Blood Pressure Tablet</span><span class="cdp-act-status t">Taken</span></div>
+              <div class="cdp-act-row"><span class="cdp-act-time">1:00 PM</span><span class="cdp-act-name">Vitamin D3</span><span class="cdp-act-status m">Missed</span></div>
+              <div class="cdp-act-row"><span class="cdp-act-time">8:00 PM</span><span class="cdp-act-name">Calcium Tablet</span><span class="cdp-act-status p">Pending</span></div>
+            </div>
+          </div>
+          <!-- floating miss alert -->
+          <div class="miss-alert">
+            <div class="miss-alert-row">
+              <div class="miss-icon">
+                <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+              </div>
+              <div style="flex:1">
+                <div class="miss-title">Missed Dose Alert</div>
+                <div class="miss-body">Mom missed 1:00 PM Vitamin D3</div>
+              </div>
+              <div class="miss-ago">1m ago</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- content -->
+      <div class="cg-content fade-up delay-1">
+        <div class="section-label">For Caregivers</div>
+        <h2 class="section-title">Stay connected.<br><span class="red">Stay worry-free.</span></h2>
+        <p class="section-sub" style="text-align:left;margin-bottom:28px">MedBell keeps caregivers informed about their loved ones' medicine schedules and health — from anywhere in the world.</p>
+        <div class="cg-feat-list">
+          <div class="cg-feat-item">
+            <div class="cg-feat-icon">
+              <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+            </div>
+            <div>
+              <h4>Instant Alerts</h4>
+              <p>Get notified immediately if a dose is missed, so you can follow up right away.</p>
+            </div>
+          </div>
+          <div class="cg-feat-item">
+            <div class="cg-feat-icon">
+              <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <div>
+              <h4>Real-time Updates</h4>
+              <p>See what medicines are taken, missed or pending — updated live throughout the day.</p>
+            </div>
+          </div>
+          <div class="cg-feat-item">
+            <div class="cg-feat-icon">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+            </div>
+            <div>
+              <h4>Care from Anywhere</h4>
+              <p>Monitor and support your loved ones from anywhere in the world, with full visibility.</p>
+            </div>
+          </div>
+        </div>
+        <div class="cg-grid-row">
+          <span class="cg-tag"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>View Schedules</span>
+          <span class="cg-tag"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg>Missed Dose Alerts</span>
+          <span class="cg-tag"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>History & Reports</span>
+          <span class="cg-tag"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Multiple Profiles</span>
+          <span class="cg-tag"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>Secure & Private</span>
+        </div>
+        <div class="cg-social-proof">
+          <div class="cg-sp-icon">
+            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          </div>
+          <div class="cg-sp-text">
+            <div class="n">Peace of mind for the people who care.</div>
+            <div class="l">MedBell helps you stay close to your loved ones, no matter the distance.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT US -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="fade-up">
+        <div class="section-label">Our Story</div>
+        <h2 class="section-title" style="margin-bottom:20px">Born from a<br><span class="red">family's worry.</span></h2>
+        <div class="about-story-card">
+          <p>I was working in Bangalore when my mother back in Jaipur was diagnosed with hypertension and diabetes. Every evening I'd call to check if she'd taken her medicines — but there were days she'd forget, and I'd only find out after something went wrong. That helplessness became MedBell.</p>
+          <div class="about-author">
+            <div class="about-author-avatar">AK</div>
+            <div>
+              <div class="about-author-name">Deepak Sharma</div>
+              <div class="about-author-role">Founder, MedBell</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="about-timeline fade-up delay-1">
+        <div class="timeline-item">
+          <div class="timeline-dot">💡</div>
+          <div class="timeline-content">
+            <h4>The Problem We Felt</h4>
+            <p>Millions of Indian families live apart. Children work in cities while parents age at home — often alone, managing complex medicine schedules.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot">❤️</div>
+          <div class="timeline-content">
+            <h4>Why We Built MedBell</h4>
+            <p>We built MedBell because technology should bring families closer — not make care feel more distant. It's a bridge, not just a bell.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot">🌱</div>
+          <div class="timeline-content">
+            <h4>Our Mission</h4>
+            <p>To make compassionate, connected healthcare accessible to every Indian family — whether you live next door or 1,000 km away.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot">🚀</div>
+          <div class="timeline-content">
+            <h4>Where We Are Today</h4>
+            <p>10,000+ families across India trust MedBell daily. We're just getting started — because every family deserves peace of mind.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="container">
+    <div class="testi-header fade-up">
+      <div class="section-label">Testimonials</div>
+      <h2 class="section-title">Loved by families<br><span class="red">across India.</span></h2>
+      <p class="section-sub" style="margin-top:16px">Real stories from real families who trust MedBell every day.</p>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card fade-up">
+        <div class="testi-tag">Working Professional</div>
+        <div class="testi-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <p class="testi-quote">Now I know my father never misses his medicines. I get an alert if anything is missed — it's like being right there beside him even from Mumbai.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">RK</div>
+          <div>
+            <div class="testi-name">Rahul Khanna</div>
+            <div class="testi-loc">Mumbai • Son of heart patient</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card fade-up delay-1">
+        <div class="testi-tag">Elderly User</div>
+        <div class="testi-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <p class="testi-quote">This app is so simple even I can use it. The reminder bell is loud and clear. My daughter added all my medicines and now I never forget. Bahut achha hai!</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#FDA4AF,var(--red))">SD</div>
+          <div>
+            <div class="testi-name">Savitri Devi</div>
+            <div class="testi-loc">Jaipur • Diabetic, 67 years</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card fade-up delay-2">
+        <div class="testi-tag">Caregiver</div>
+        <div class="testi-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <p class="testi-quote">This app gives me peace of mind I never had before. My parents are in Delhi and I'm in Bangalore — MedBell makes me feel like I'm right there with them.</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#FCA5A5,#EF4444)">PS</div>
+          <div>
+            <div class="testi-name">Priya Sharma</div>
+            <div class="testi-loc">Bangalore • Daughter & Caregiver</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card fade-up">
+        <div class="testi-tag">Family</div>
+        <div class="testi-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <p class="testi-quote">We added both my in-laws to MedBell. The dashboard shows everything at once. Our family group chat is now about happy things, not medicine worries!</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#FEB2B2,#FC8181)">AM</div>
+          <div>
+            <div class="testi-name">Anita Mehta</div>
+            <div class="testi-loc">Pune • Managing 2 family members</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card fade-up delay-1">
+        <div class="testi-tag">Doctor Referred</div>
+        <div class="testi-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <p class="testi-quote">My doctor suggested it. The tracking reports help him too — he can see my medicine history during consultations. Very useful feature that I didn't expect.</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#F87171,#DC2626)">VR</div>
+          <div>
+            <div class="testi-name">Vijay Rao</div>
+            <div class="testi-loc">Hyderabad • BP & diabetes patient</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card fade-up delay-2">
+        <div class="testi-tag">Senior Citizen</div>
+        <div class="testi-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <p class="testi-quote">My son set it up in 10 minutes. Now the app reminds me, I mark it done, and my son sees it. No more phone calls asking "Papa did you take your tablet?"</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#FCA5A5,#E11D48)">MG</div>
+          <div>
+            <div class="testi-name">Mohan Gupta</div>
+            <div class="testi-loc">Delhi • 72 years, retired</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOWNLOAD CTA -->
+<section id="download">
+  <div class="container">
+    <div class="dl-inner">
+      <div class="dl-content fade-up">
+        <h2>Start caring better<br>with MedBell.</h2>
+        <p>Never miss a dose. Never worry alone.<br>Download free for iOS and Android.</p>
+        <div class="dl-btns">
+          <a href="#" class="dl-btn">
+            <svg viewBox="0 0 24 24"><path d="M3.18 23.76c.31.17.67.18 1.01.04L15.34 12 4.19.2C3.85.06 3.49.07 3.18.24 2.56.57 2.18 1.23 2.18 2v19.99c0 .77.38 1.43 1 1.77zM18.43 9.09l-2.9-1.64-3.23 3.23 3.23 3.23 2.93-1.66c.83-.47.83-1.69-.03-2.16zM4.87 1.58l12.61 7.14-2.86 2.86L4.87 1.58zM4.87 22.42l9.75-9.74 2.86 2.86-12.61 7.14v-.26z"/></svg>
+            <div><div class="s1">GET IT ON</div><div class="s2">Google Play</div></div>
+          </a>
+          <a href="#" class="dl-btn">
+            <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <div><div class="s1">Download on the</div><div class="s2">App Store</div></div>
+          </a>
+        </div>
+      </div>
+      <div class="dl-phone-wrap fade-up delay-1">
+        <div class="dl-phone">
+          <div class="dl-phone-screen">
+            <div class="app-logo">
+              <svg viewBox="0 0 24 24"><path d="M12 22c5.52 0 10-4.48 10-10S17.52 2 12 2 2 6.48 2 12s4.48 10 10 10z"/><path d="M12 8v4l3 3" stroke="#E8141E" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <h4>MedBell</h4>
+            <p>Care beyond reminders</p>
+            <button class="open-btn">Open App</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div class="faq-header fade-up">
+      <div class="section-label">FAQ</div>
+      <h2 class="section-title">Questions? <span class="red">We have answers.</span></h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item open">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Is MedBell free to use?
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="faq-a"><p>Yes! MedBell is free to download and use with all core features including reminders, tracking, and caregiver alerts. We offer optional premium features for power users.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          How does the caregiver feature work?
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="faq-a"><p>You simply add a caregiver (family member or friend) by sharing an invite link. They get their own app view with a dashboard showing all medicine activity in real-time.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Is my health data safe and private?
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="faq-a"><p>Absolutely. All data is encrypted end-to-end. We never sell or share your health data with anyone. You have full control over what caregivers can and cannot see.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Can I manage multiple family members?
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="faq-a"><p>Yes! You can add multiple profiles — for parents, grandparents, siblings — and manage all their medicine schedules from one caregiver dashboard.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Does MedBell work without internet?
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="faq-a"><p>Medicine reminders will still ring locally without internet. For caregiver alerts and live updates to sync, a connection is needed.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Is the app easy enough for elderly users?
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="faq-a"><p>MedBell is designed with senior-friendliness as a priority — large text, clear buttons, simple navigation, and loud reminders. Our elderly users love it!</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-disclaimer">
+      <p>⚕️ MedBell is a reminder app and not a substitute for professional medical advice, diagnosis, or treatment. Always consult your doctor or healthcare provider for medical decisions.</p>
+    </div>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="logo-text"><span>Med</span>Bell</span>
+        <p>Care beyond reminders. MedBell connects Indian families through medicine care — helping loved ones stay healthy and families stay close, no matter the distance.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-btn" aria-label="Instagram">
+            <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="#" class="social-btn" aria-label="Twitter">
+            <svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
+          </a>
+          <a href="#" class="social-btn" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="#" class="social-btn" aria-label="Facebook">
+            <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Product</h5>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a href="#caregiver">Caregiver</a></li>
+          <li><a href="#download">Download</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#testimonials">Testimonials</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Legal</h5>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Cookie Policy</a></li>
+          <li><a href="mailto:hello@medbell.in">hello@medbell.in</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 MedBell Technologies Pvt. Ltd. Made with ❤️ in India.</p>
+      <p>Designed for Indian families. Built with care.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// FAQ toggle
+function toggleFaq(el) {
+  const item = el.parentElement;
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+
+// Scroll fade animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// Active nav link on scroll
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 100) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.remove('active');
+    if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+  });
+}, { passive: true });
+</script>
+</body>
+</html>
