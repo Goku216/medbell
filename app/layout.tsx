@@ -129,7 +129,6 @@ export const metadata: Metadata = {
   },
 
   manifest: "/site.webmanifest",
-  canonical: SITE_URL,
 
   // Verification (add your tokens when available)
   verification: {
