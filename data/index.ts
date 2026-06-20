@@ -297,7 +297,7 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
     links: [
       { label: "Privacy Policy", href: "/privacy-policy" },
       { label: "Terms of Service", href: "/terms" },
-      { label: "Cookie Policy", href: "#" },
+      { label: "Delete Account", href: "/delete-account" },
       { label: "hello@medbell.in", href: "mailto:hello@medbell.in" },
     ],
   },
